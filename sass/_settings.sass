@@ -1,0 +1,15 @@
+$display-wide: 1920
+$display-narrow: 375
+
+@mixin fluid($property, $minValue, $maxValue)
+  $x: ($maxValue - $minValue)/($display-wide - $display-narrow)
+  $y: $maxValue - $display-wide * $x
+  #{$property}: calc(#{100*$x}vw + #{$y}px)
+
+body
+  background-color: #f5fafe
+.container
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 100vh
