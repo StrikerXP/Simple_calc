@@ -4,7 +4,11 @@ const numbers = document.querySelectorAll('[data-number]');
 const memory = document.querySelectorAll('[data-memory]');
 const bracket = document.querySelectorAll('[data-bracket]');
 const operation = document.querySelectorAll('[data-operation]');
-const percent = document.querySelectorAll('[data-percent]');
+const squareRoot = document.querySelector('[data-sqrt]');
+const numberPi = document.querySelector('[data-Pi]');
+const radSelect = document.querySelector('[data-rad]');
+const degSelect = document.querySelector('[data-deg]');
+const sinus = document.querySelector('[data-sin]');
 const equal = document.querySelector('[data-equal]');
 const slice = document.querySelector('[data-slice]');
 const clear = document.querySelector('[data-clear]');
@@ -30,12 +34,14 @@ class Calc {
     }
 
     getResultNumber(number) {
-        const floatNumber = parseFloat(number);
-        if (isNaN(floatNumber)) return '';
-        return floatNumber.toLocaleString('ua');
+        if (isNaN(parseFloat(number))) return '';
+        return number.toLocaleString('ua');
     }
 
     chooseOperation(operation) {
+        if (operation === '%' && this.prevOperandValue === '') return;
+        if (this.operation === '%') this.operation = operation;
+        if (operation === '%' && this.operation !== '%') this.operation += '%';
         if (this.currentOperandValue === '') return;
         if (this.prevOperandValue !== '') this.computeEqual();
         this.prevOperandValue = this.currentOperandValue;
@@ -49,6 +55,18 @@ class Calc {
         let currentNumber = parseFloat(this.currentOperandValue);
         if (isNaN(previousNumber) || isNaN(currentNumber)) return;
         switch (this.operation) {
+            case '+%':
+                equalResult = previousNumber * (100 + currentNumber) / 100;
+                break;
+            case '-%':
+                equalResult = previousNumber * (100 - currentNumber) / 100;
+                break;
+            case '×%':
+                equalResult = previousNumber + currentNumber;
+                break;
+            case '+÷':
+                equalResult = previousNumber + currentNumber;
+                break;
             case '+':
                 equalResult = previousNumber + currentNumber;
                 break;
@@ -67,30 +85,21 @@ class Calc {
         this.operation = null;
     }
 
-    percentNumber() {
-        let equalResult;
-        let previousNumber = parseFloat(this.prevOperandValue);
-        let currentNumber = parseFloat(this.currentOperandValue);
-        switch (operation) {
-            case '+':
-                equalResult = previousNumber + currentNumber;
-                break;
-            case '-':
-                equalResult = previousNumber - currentNumber;
-                break;
-            case '÷':
-                equalResult = previousNumber / currentNumber;
-                break;
-            case '×':
-                equalResult = previousNumber * currentNumber;
-                break;
-        }
-        this.currentOperandValue = equalResult;
-        this.operation = null;
+    squareRoot() {
+        if (this.currentOperandValue !== '') this.currentOperandValue = Math.sqrt(this.currentOperandValue);
+        if (this.prevOperandValue !== '' && this.currentOperandValue === '') this.prevOperandValue = Math.sqrt(this.prevOperandValue);
+    }
+
+    numberPi() {
+        this.currentOperandValue = Math.PI;
     }
 
     slice() {
-        this.currentOperandValue = this.currentOperandValue.toString().slice(0, -1)
+        this.currentOperandValue = this.currentOperandValue.toString().slice(0, -1);
+    }
+
+    sinus() {
+        this.currentOperandValue = Math.sin(this.currentOperandValue);
     }
 
     displayUpdate() {
@@ -104,6 +113,7 @@ class Calc {
 }
 
 const calculator = new Calc(prevOperandNumber, currentOperandNumber);
+const toggled = 'keyboard-num__selected';
 
 numbers.forEach(numberButton => {
     numberButton.addEventListener('click', () => {
@@ -132,9 +142,30 @@ clear.addEventListener('click', () => {
 slice.addEventListener('click', () => {
     calculator.slice();
     calculator.displayUpdate();
-})
+});
 
-percent.addEventListener('click', () => {
-    calculator.percentNumber();
+squareRoot.addEventListener('click', () => {
+    calculator.squareRoot();
     calculator.displayUpdate();
-})
+});
+
+numberPi.addEventListener('click', () => {
+    calculator.numberPi();
+    calculator.displayUpdate();
+});
+
+sinus.addEventListener('click', () => {
+    calculator.sinus();
+    calculator.displayUpdate();
+});
+
+radSelect.addEventListener('click', () => {
+    radSelect.classList.add(toggled);
+    degSelect.classList.remove(toggled);
+});
+
+degSelect.addEventListener('click', () => {
+    radSelect.classList.remove(toggled);
+    degSelect.classList.add(toggled);
+});
+

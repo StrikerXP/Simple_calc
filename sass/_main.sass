@@ -37,7 +37,6 @@
       text-align: right
       padding-right: 1em
       font-size: 1.5em
-
 hr
   width: 95%
   -webkit-border-radius: 0.5em
@@ -46,7 +45,7 @@ hr
 
 .keyboard
   display: grid
-  grid-template-columns: repeat(8, 1fr)
+  grid-template-columns: repeat(7, 1fr)
   @include fluid('min-width', 500, 700)
   @include fluid('min-height', 210, 420)
   padding: 0.8em
@@ -60,6 +59,16 @@ hr
     border: 0.1em solid #dadada
     border-radius: 0.3em
     font-size: 1.9em
+    //&-container
+    //  grid-column-start: 1
+    //  grid-column-end: 3
+    //  grid-row-start: 1
+    //  grid-row-end: 2
+    //  background-color: #dcdcdc
+    //  display: flex
+    //  align-items: center
+    //  justify-content: space-around
+    //  border-radius: 0.5em
     &:hover
       background-color: #fcd5d5
       cursor: pointer
@@ -69,3 +78,5 @@ hr
       background-color: #b5cfe5
     &__numbers
       background-color: rgba(96, 100, 105, 0.52)
+    &__selected
+      color: rgba(43, 94, 215, 0.58)

@@ -400,7 +400,7 @@ hr {
 
 .keyboard {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   min-width: calc(12.9449838188vw + 451.4563106796px);
   min-height: calc(13.5922330097vw + 159.0291262136px);
   padding: 0.8em;
@@ -427,6 +427,9 @@ hr {
 }
 .keyboard-num__numbers {
   background-color: rgba(96, 100, 105, 0.52);
+}
+.keyboard-num__selected {
+  color: rgba(43, 94, 215, 0.58);
 }
 
 /*# sourceMappingURL=style.css.map */
