@@ -400,7 +400,7 @@ hr {
 
 .keyboard {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   min-width: calc(12.9449838188vw + 451.4563106796px);
   min-height: calc(13.5922330097vw + 159.0291262136px);
   padding: 0.8em;
