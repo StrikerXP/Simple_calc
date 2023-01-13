@@ -1,17 +1,14 @@
 'use strict';
 
+const elements = {
+    squareRoot: document.querySelector('[data-sqrt]'),
+    computeEqual: document.querySelector('[data-equal]'),
+    slice: document.querySelector('[data-slice]'),
+    clear: document.querySelector('[data-clear]'),
+};
+
 const numbers = document.querySelectorAll('[data-number]');
-const memory = document.querySelectorAll('[data-memory]');
-const bracket = document.querySelectorAll('[data-bracket]');
 const operation = document.querySelectorAll('[data-operation]');
-const squareRoot = document.querySelector('[data-sqrt]');
-const numberPi = document.querySelector('[data-Pi]');
-const radSelect = document.querySelector('[data-rad]');
-const degSelect = document.querySelector('[data-deg]');
-const sinus = document.querySelector('[data-sin]');
-const equal = document.querySelector('[data-equal]');
-const slice = document.querySelector('[data-slice]');
-const clear = document.querySelector('[data-clear]');
 const currentOperandNumber = document.querySelector('[data-current-operand]');
 const prevOperandNumber = document.querySelector('[data-previous-operand]');
 
@@ -98,10 +95,6 @@ class Calc {
         this.currentOperandValue = this.currentOperandValue.toString().slice(0, -1);
     }
 
-    sinus() {
-        this.currentOperandValue = Math.sin(this.currentOperandValue);
-    }
-
     displayUpdate() {
         this.currentOperandTextNumber.innerText = this.getResultNumber(this.currentOperandValue);
         if (this.operation != null) {
@@ -113,7 +106,6 @@ class Calc {
 }
 
 const calculator = new Calc(prevOperandNumber, currentOperandNumber);
-const toggled = 'keyboard-num__selected';
 
 numbers.forEach(numberButton => {
     numberButton.addEventListener('click', () => {
@@ -129,43 +121,9 @@ operation.forEach(operationButton => {
     });
 });
 
-equal.addEventListener('click', () => {
-    calculator.computeEqual();
-    calculator.displayUpdate();
-});
-
-clear.addEventListener('click', () => {
-    calculator.clear();
-    calculator.displayUpdate();
-});
-
-slice.addEventListener('click', () => {
-    calculator.slice();
-    calculator.displayUpdate();
-});
-
-squareRoot.addEventListener('click', () => {
-    calculator.squareRoot();
-    calculator.displayUpdate();
-});
-
-numberPi.addEventListener('click', () => {
-    calculator.numberPi();
-    calculator.displayUpdate();
-});
-
-sinus.addEventListener('click', () => {
-    calculator.sinus();
-    calculator.displayUpdate();
-});
-
-radSelect.addEventListener('click', () => {
-    radSelect.classList.add(toggled);
-    degSelect.classList.remove(toggled);
-});
-
-degSelect.addEventListener('click', () => {
-    radSelect.classList.remove(toggled);
-    degSelect.classList.add(toggled);
-});
-
+for (let element in elements) {
+    elements[element].addEventListener('click', () => {
+        calculator[element]();
+        calculator.displayUpdate();
+    })
+}
